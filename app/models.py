@@ -25,8 +25,8 @@ class Pitch(db.Model):
     db.session.commit()
 
   @classmethod
-  def get_pitch(cls):
-    pitch = Pitch.query.all()
+  def get_pitch(cls, id):
+    pitch = Pitch.query.filter_by(id=id).all()
     return pitch
 
 
@@ -39,7 +39,7 @@ class User(UserMixin,db.Model):
   bio = db.Column(db.String(255))
   profile_pic_path = db.Column(db.String())
   pitch = db.relationship('Pitch',backref = 'user',lazy = "dynamic")
-  # comments = db.relationship('Comment', backref='comment', lazy='dynamic')
+  comment = db.relationship('Comment', backref='user', lazy='dynamic')
 
   @property
   def password(self):
@@ -56,7 +56,6 @@ class User(UserMixin,db.Model):
     return f'User {self.username}'
 
 
-
 class Comment(db.Model):
   __tablename__ = 'comments'
 
@@ -64,7 +63,8 @@ class Comment(db.Model):
   username = db.Column(db.String(255))
   comment = db.Column(db.String(255))
   posted = db.Column(db.Time, default=datetime.utcnow())
-  # user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
+  pitch_id = db.Column(db.Integer, db.ForeignKey('pitch.id'))
+  user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
 
   def __repr__(self):
     return f'User (self.name)'
@@ -74,20 +74,6 @@ class Comment(db.Model):
     db.session.commit()
 
   @classmethod
-  def get_comment(cls):
-    comments = Comment.query.all()
+  def get_comment(cls,id):
+    comments = Comment.query.filter_by(pitch_id=id).all()
     return comments
-
-
-
-
-# class Comment(db.Model):
-#   __tablename__ = 'comments'
-
-#   id = db.Column(db.Integer, primary_key=True)
-#   comment = db.Column(db.String(255))
-#   posted = db.Column(db.Time, default=datetime.utcnow())
-#   users = db.relationship('User', backref='comment', lazy='dynamic')
-
-#   def __repr__(self):
-#     return f'User (self.name)'

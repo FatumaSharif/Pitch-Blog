@@ -1,0 +1,19 @@
+body{
+  font-size: 18px;
+}
+a.navbar-brand {
+  font-size: 23px;
+}
+.navbar-dark .navbar-brand {
+  color: #fff;
+  margin-left: 6%;
+  margin-bottom: -1px;
+}
+.title{
+  margin-bottom: 2%;
+  margin-left: 1%;
+  text-decoration: underline;
+}
+.navbar-dark .navbar-nav .nav-link {
+  font-size: 18px;
+}

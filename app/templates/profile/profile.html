@@ -41,12 +41,11 @@
   </div>
   <div class="row">
     {% if user==current_user %}
-     
-    {% endif %}
-    {% if pitch %}
-    <h1>Your Pitch Ideas</h1>
-    {{macro.displayPitch(pitch)}}
-  {% endif %}
+      {% endif %}
+      {% if pitch %}
+        <h1>Your Pitch Ideas</h1>
+        {{macro.displayPitch(pitch)}}
+      {% endif %}
   </div>
 </div>
 </div>

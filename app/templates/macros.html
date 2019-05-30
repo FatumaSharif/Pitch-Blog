@@ -6,15 +6,30 @@
   <div class="container">
     <div class="row">
         <div class="col-12">
-    
           <h3>{{pitch.name}}</h3>
           <p>{{pitch.category}}</p>
           <span>{{pitch.posted}}</span>
-          
+          <p>
+            <a href="{{url_for('main.comment',id=pitch.id)}}">Leave a Comment</a>
+          </p>
+          <hr>
         </div>
       </div>
   </div>
 
+  {% endfor %}
+
+{% endmacro %}
+
+{% macro displayComments(comments) %}
+
+  {% for comment in comments %}
+    <div class="row">
+      <h4>Comments</h4>
+      <h3>{{comment.username}}</h3>
+      <p>{{comment.comment}}</p>
+
+    </div>
   {% endfor %}
 
 {% endmacro %}

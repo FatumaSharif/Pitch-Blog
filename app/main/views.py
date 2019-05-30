@@ -8,14 +8,15 @@ from .. import db, photos
 
 @main.route('/')
 def index():
-  pitch = Pitch.get_pitch()
+  # pitch = Pitch.get_pitch()
+  pitch = Pitch.query.all()
   title = f'Pitch'
   return render_template('index.html', title=title, pitch=pitch) 
 
 
 @main.route('/pitch', methods=['GET', 'POST'])
 @login_required
-def post_pitch():
+def pitch():
   pitch_form = PitchForm()
   if pitch_form.validate_on_submit():
     name = pitch_form.name.data
@@ -71,20 +72,17 @@ def update_pic(uname):
     return redirect(url_for('main.profile',uname=uname))
 
 
-@main.route('/comment', methods=['GET','POST'])
+@main.route('/comment/<int:id>', methods=['GET','POST'])
 @login_required
-def comment():
+def comment(id):
   comment_form = CommentForm()
-  # pitch_id = Pitch.get_pitch(id)
+  pitch__id = Pitch.get_pitch(id)
 
   if comment_form.validate_on_submit():
-    username = comment_form.username.data
-    comment = comment_form.comment.data
-
-    new_comment = Comment(username=username, comment=comment)
-
+    new_comment = Comment(username=comment_form.username.data, comment=comment_form.comment.data, pitch_id=id, user=current_user)
     new_comment.save_comment()
     return redirect(url_for('main.index'))
-  
+
   title = f'Pitch Review'
-  return render_template('comment.html', title=title, comment_form=comment_form)
+  comments = Comment.get_comment(id)
+  return render_template('comment.html',title=title, comment_form=comment_form, pitch__id=pitch__id, comments=comments)

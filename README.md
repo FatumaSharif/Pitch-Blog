@@ -25,10 +25,7 @@ This is an application that that allows users to submit their one minute pitches
 ## Testing
 run the command below to run tests
 ```python
-...
 python3.6 manage.py test
-...
-
 ```
 
 ## Contributing
